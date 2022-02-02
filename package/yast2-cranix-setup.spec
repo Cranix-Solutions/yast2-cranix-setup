@@ -16,7 +16,7 @@
 #
 
 Name:           yast2-cranix-setup
-Version:	4.4.1
+Version:	4.4.4
 Release:	0
 License:	MIT
 Summary:	Setup for CRANIX/CEPHALIX
@@ -33,7 +33,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 %description
 Setup for the CRANIX and CEPHALIX server
 
-%_oss_author
+%_cranix_author
 
 %prep
 %setup -q

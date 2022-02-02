@@ -1,6 +1,6 @@
 # encoding: utf-8
 # ------------------------------------------------------------------------------
-# Copyright (c) 2016 Peter Varkoly, Nuernberg, Germany.
+# Copyright (c) 2021 Peter Varkoly, Nuernberg, Germany.
 #
 # Author: Peter Varkoly <peter@varkoly.de>
 
@@ -211,13 +211,6 @@ LABEL_proxy='proxy'
 "
                  File.write("/etc/sysconfig/network/ifcfg-" + intdev,intdevConf)
 
-                 # We write the internal device every time as internal device.
-                 if is_gate
-                     SCR.Write(path(".sysconfig.SuSEfirewall2.FW_ROUTE"), "yes")
-                     SCR.Write(path(".sysconfig.SuSEfirewall2.FW_DEV_EXT"), extdev)
-                 end
-                 SCR.Write(path(".sysconfig.SuSEfirewall2.FW_DEV_INT"), intdev)
-                 SCR.Write(path(".sysconfig.SuSEfirewall2"), nil)
                  SCR.Write(path(".etc.dhcpd.DHCPD_INTERFACE"), intdev)
                  SCR.Write(path(".etc.dhcpd"), nil)
                  domain = SCR.Read(path(".etc.cranix.CRANIX_DOMAIN"))
@@ -231,8 +224,9 @@ LABEL_proxy='proxy'
                  if is_gate
                     extdevConf = "BOOTPROTO='static'
 IPADDR='"+ ext_ip + "/" + ext_nm.to_s + "'
-PREFIXLEN='" +  ext_nm.to_s + " '
-STARTMODE='auto'"
+PREFIXLEN='" +  ext_nm.to_s + "'
+STARTMODE='auto'
+ZONE=external"
                     File.write("/etc/sysconfig/network/ifcfg-" + extdev,extdevConf)
                  end #end if is_gate
 host_tmp = "#
@@ -252,7 +246,6 @@ host_tmp = "#
 "+ prox   + "   proxy."       + domain + " proxy
 "+ backup + "   backup."      + domain + " backup
 216.239.32.20  www.google.de www.google.com www.google.fr www.google.it www.google.hu www.google.en
-185.3.232.240  repo.cephalix.eu
 "
                  if is_gate
                         host_tmp = host_tmp + ext_ip + " extip
